@@ -8,7 +8,7 @@ class CustomTextField extends ConsumerWidget {
   const CustomTextField(
       {super.key,
       required this.controller,
-      // required this.hintText,
+      this.keyboardType,
       required this.labelText,
       this.errorMessage,
       this.isPassword = false,
@@ -21,6 +21,7 @@ class CustomTextField extends ConsumerWidget {
   final String? errorMessage;
   final bool isPassword;
   final ValueChanged<String> onChanged;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,10 +29,12 @@ class CustomTextField extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
-          obscureText: isPassword? ref.watch(visibilityProvider):isPassword,
+          keyboardType: keyboardType,
+          obscureText: isPassword ? ref.watch(visibilityProvider) : isPassword,
           onChanged: onChanged,
           controller: controller,
           decoration: InputDecoration(
+            contentPadding: isPassword ? const EdgeInsets.all(8) : null,
             // hintText: hintText,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
@@ -50,16 +53,19 @@ class CustomTextField extends ConsumerWidget {
             labelText: labelText,
             suffix: isPassword
                 ? IconButton(
-                    icon: Icon(ref.watch(visibilityProvider)
-                        ? Icons.visibility
-                        : Icons.visibility_off,size: 20,),
+                    iconSize: 20,
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      ref.watch(visibilityProvider)
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      size: 20,
+                    ),
                     color: Colors.grey,
-
                     onPressed: () {
                       ref.read(visibilityProvider.notifier).state =
                           !ref.watch(visibilityProvider);
                     },
-
                   )
                 : null,
           ),

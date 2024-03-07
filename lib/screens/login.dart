@@ -16,7 +16,6 @@ class Login extends HookConsumerWidget {
   const Login({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final email = useTextEditingController();
     final password = useTextEditingController();
 
@@ -132,10 +131,18 @@ class Login extends HookConsumerWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                      onPressed: () => {},
-                                      child:
-                                          const Text('Not a member? Sign Up'),
-                                    ),
+                                        onPressed: () =>
+                                            {context.go("/signup")},
+                                        child: const Row(
+                                          children: [
+                                            Text('Not a member? '),
+                                            Text(
+                                              'Sign Up',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        )),
                                     const Text('Forgot Password?'),
                                   ],
                                 )

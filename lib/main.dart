@@ -8,7 +8,10 @@ import 'package:front_end/provider/connectivity_provider.dart';
 import 'package:front_end/screens/auth/Auth.dart';
 import 'package:front_end/screens/home.dart';
 import 'package:front_end/screens/login.dart';
-import 'package:front_end/screens/signup.dart';
+import 'package:front_end/screens/signup/signup.dart';
+import 'package:front_end/screens/signup/signup_personal.dart';
+import 'package:front_end/screens/signup/signup_address.dart';
+import 'package:front_end/screens/signup/signup_stepper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,6 +40,7 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Connectiviy checker
     var connectivityStatusProvider = ref.watch(connectivityStatusProviders);
 
     Fluttertoast.showToast(
@@ -50,15 +54,7 @@ class MyApp extends ConsumerWidget {
         textColor: Colors.white,
         fontSize: 16.0);
 
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(
-    //     content: Text(
-    //         connectivityStatusProvider == ConnectivityStatus.isConnected
-    //             ? 'Is Connected to Internet'
-    //             : 'Is Disconnected from Internet'),
-    //     behavior: SnackBarBehavior.floating,
-    //   ),
-    // );
+
     final init = ref.watch(firebaseInitializerProvider);
     return MaterialApp.router(
       routerConfig: _router,
@@ -67,7 +63,7 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData(
           textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme),
           colorScheme:
-          const ColorScheme.light().copyWith(primary: Colors.black)),
+              const ColorScheme.light().copyWith(primary: Colors.black)),
     );
   }
 }
@@ -76,11 +72,13 @@ class MyApp extends ConsumerWidget {
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
-        path: '/',
-        builder: (BuildContext context, GoRouterState state) {
-          return const Auth();
-        },
-        routes: const []),
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const Auth();
+      },
+    ),
+    //    /products
+    ///products/1
     GoRoute(
       path: '/login',
       builder: (BuildContext context, GoRouterState state) {
@@ -90,7 +88,19 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/signup',
       builder: (BuildContext context, GoRouterState state) {
-        return SignUp();
+        return SignupStepper();
+      },
+    ),
+    GoRoute(
+      path: '/signup_personal',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SignUpPersonal();
+      },
+    ),
+    GoRoute(
+      path: '/signup_address',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SignUpAddress();
       },
     ),
     GoRoute(
